@@ -1,0 +1,132 @@
+{
+	"version": 1,
+	"allow_edit": true,
+	"plugins": [],
+	"panes": [
+		{
+			"width": 1,
+			"row": {
+				"3": 1
+			},
+			"col": {
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "indicator",
+					"settings": {
+						"title": "Garage",
+						"value": "datasources[\"Garage\"][\"msg\"][\"Garage\"] == \"Open\"",
+						"on_text": "Open",
+						"off_text": "Closed"
+					}
+				}
+			]
+		},
+		{
+			"title": "Last User",
+			"width": 1,
+			"row": {
+				"3": 1
+			},
+			"col": {
+				"3": 2
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "text_widget",
+					"settings": {
+						"title": "UID",
+						"size": "regular",
+						"value": "datasources[\"Input\"][\"msg\"][\"UID\"] || datasources[\"Garage\"][\"msg\"][\"UID\"]",
+						"animate": true
+					}
+				},
+				{
+					"type": "text_widget",
+					"settings": {
+						"title": "Code",
+						"size": "regular",
+						"value": "datasources[\"Input\"][\"msg\"][\"Password\"] || datasources[\"Garage\"][\"msg\"][\"Password\"]",
+						"animate": true
+					}
+				}
+			]
+		},
+		{
+			"title": "Garage Position",
+			"width": 1,
+			"row": {
+				"3": 1
+			},
+			"col": {
+				"3": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "pointer",
+					"settings": {
+						"direction": "if(datasources[\"Garage\"][\"msg\"][\"Garage\"] == \"Open\")\n    return 0;\nelse if(datasources[\"Garage\"][\"msg\"][\"Garage\"] == \"Closed\")\n    return 180;\nelse if(datasources[\"Garage\"][\"msg\"][\"Garage\"] == \"Closing\")\n    return 160;\nelse if(datasources[\"Garage\"][\"msg\"][\"Garage\"] == \"Opening\")\n    return 20;",
+						"value_text": "datasources[\"Garage\"][\"msg\"][\"Garage\"]"
+					}
+				}
+			]
+		},
+		{
+			"width": 1,
+			"row": {
+				"3": 5
+			},
+			"col": {
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "indicator",
+					"settings": {
+						"title": "Car Distance",
+						"value": "if(datasources[\"Input\"][\"msg\"][\"Distance\"] >= 2.0 && datasources[\"Input\"][\"msg\"][\"Distance\"] <= 5.0)\n    return true;\nelse\n    return false;",
+						"on_text": "Car is not clear of the garage door",
+						"off_text": "All clear"
+					}
+				}
+			]
+		}
+	],
+	"datasources": [
+		{
+			"name": "Garage",
+			"type": "paho_mqtt",
+			"settings": {
+				"server": "192.168.1.126",
+				"port": 8080,
+				"use_ssl": false,
+				"client_id": "",
+				"username": "",
+				"password": "",
+				"topic": "/ece631/Final/Garage",
+				"json_data": true,
+				"name": "Garage"
+			}
+		},
+		{
+			"name": "Input",
+			"type": "paho_mqtt",
+			"settings": {
+				"server": "192.168.1.126",
+				"port": 8080,
+				"use_ssl": false,
+				"client_id": "",
+				"username": "",
+				"password": "",
+				"topic": "/ece631/Final/Input",
+				"json_data": true
+			}
+		}
+	],
+	"columns": 3
+}
